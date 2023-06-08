@@ -14,7 +14,7 @@ DEFAULT_PORT := 3333
 class RestClient {
 
     __New(base_url) {
-        This.DefaultBaseUrl = base_url
+        This.DefaultBaseUrl := base_url
     }
 
     ; Send an HTTP request with the given method to the given url and endpoint, with the given data.
@@ -47,7 +47,8 @@ class RestClient {
         whr := This.Http("GET", endpoint)
         ; GET endpoints in the Kenku Remote API return a JSON body listing the results.
         ; Parse the JSON and return the results.
-        results := Jxon_Load(&whr.ResponseText)
+        text := whr.ResponseText
+        results := Jxon_Load(&text)
         return results
     }
 
@@ -97,7 +98,7 @@ class KenkuRemote {
         }
 
         Get() {
-            return This.RestClient.Get.("/soundboard")
+            return This.RestClient.Get("/soundboard")
         }
 
         Play(id) {
